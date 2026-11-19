@@ -1,6 +1,9 @@
 import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
 import { client } from '../testing/request.js';
+import { mkdtempSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { createApp } from '../server.js';
 
 const { app, db } = createApp({ database: ':memory:', rateLimit: 1000 });
@@ -84,4 +87,21 @@ test('cross-origin JSON and bearer-token preflights succeed', async () => {
   assert.match(response.headers.get('access-control-allow-headers'), /Authorization/);
   const error = await request('', 'POST', {});
   assert.equal(error.headers.get('access-control-allow-origin'), '*');
+});
+
+test('registrations and hashed ownership survive restarting the app', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'api-social-test-'));
+  const database = join(directory, 'registry.sqlite');
+  let instance = createApp({ database });
+  try {
+    const registered = await client(instance.app)('/api/apis', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(valid) });
+    const saved = await registered.json();
+    assert.equal(registered.status, 201);
+    assert.notEqual(instance.db.prepare('SELECT token_hash FROM apis').get().token_hash, saved.edit_token);
+    instance.db.close(); instance = createApp({ database });
+    const read = await client(instance.app)(`/api/apis/${saved.id}`);
+    assert.equal((await read.json()).name, valid.name);
+    const removed = await client(instance.app)(`/api/apis/${saved.id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${saved.edit_token}` } });
+    assert.equal(removed.status, 204);
+  } finally { instance.db.close(); rmSync(directory, { recursive: true, force: true }); }
 });
