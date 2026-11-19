@@ -48,7 +48,7 @@ Every laptop can use port 8000 because it has a different IP. One laptop running
 
 ## Registration exercise
 
-Import the starter’s Postman collection or make a POST request manually. The website only displays registrations. Set `registry_url` to `http://HOST_WIFI_IP:3000`, and customize `student_ip`, `student_port`, `api_name`, and `creator`.
+Make a POST request in Postman using the registration JSON in the platform README. The website only displays registrations. Send it to `http://HOST_WIFI_IP:3000/api/apis` with your name, API details, Wi-Fi IP, and port 8000.
 
 Show three examples together:
 
@@ -56,7 +56,7 @@ Show three examples together:
 - A quoted port, `"8000"` → `400`: read the field error and fix it.
 - A duplicate name or IP + port → `409`: pick a unique name or PATCH your existing entry.
 
-Explain that the edit token is a small introduction to authorization: anyone can read the directory, but you need your entry’s token to change it. The Postman collection saves tokens locally in collection variables; do not publish an exported collection containing live tokens.
+Explain that the edit token is a small introduction to authorization: anyone can read the directory, but you need your entry’s token to change it. Save the token from the registration response.
 
 ## Troubleshooting during the session
 
