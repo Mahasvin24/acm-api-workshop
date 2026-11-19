@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7f9" />
+    <meta
+      name="description"
+      content="Build a little API. Share it with the room. The API workshop directory from ACM at UCSB."
+    />
+    <title>API Social · ACM at UCSB</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#directory">Skip to APIs</a>
+    <header class="site-header wrap">
+      <a class="brand" href="/" aria-label="API Social home">
+        <img
+          class="acm-logo"
+          src="https://www.ucsbacm.com/_next/static/media/ACM%20logo.abe40c7d.png"
+          alt="ACM at UCSB"
+          width="48"
+          height="48"
+        />
+        <span
+          ><strong>acm<span class="brand-at"> at UCSB</span></strong
+          ><span class="brand-caption">Build something together.</span></span
+        >
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#directory">The directory</a
+        ><button class="text-button" data-guide>How to join</button
+        ><a
+          href="https://www.ucsbacm.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Our community</a
+        >
+      </nav>
+    </header>
+    <main class="wrap">
+      <section class="intro" aria-labelledby="title">
+        <div class="intro-copy">
+          <h1 id="title">API Social</h1>
+          <p>
+            A little code. A room full of ideas.<br />See what everyone’s
+            building, then make a request.
+          </p>
+        </div>
+        <div class="intro-action">
+          <p>Made here. Running on your laptop.</p>
+          <button class="primary" data-guide>
+            Share your API <span aria-hidden="true">+</span>
+          </button>
+        </div>
+      </section>
+      <section class="workshop" aria-labelledby="workshop-title">
+        <div>
+          <span class="method">POST</span>
+          <h2 id="workshop-title">Your first connection.</h2>
+          <p>
+            Run your API locally. Send your name, a description, and your IP +
+            port to the directory. Now the whole room can try it.
+          </p>
+          <button class="text-button" data-guide>Show me the request</button>
+        </div>
+        <div class="request-preview">
+          <div class="code-header">
+            <span>Register with Postman</span><span>application/json</span>
+          </div>
+          <pre aria-label="Example registration JSON"><code>{
+  <span class="key">"name"</span>: <span class="value">"Campus Picks"</span>,
+  <span class="key">"creator"</span>: <span class="value">"Your name"</span>,
+  <span class="key">"description"</span>: <span class="value">"Good spots around UCSB."</span>,
+  <span class="key">"ip"</span>: <span class="value">"192.168.1.42"</span>,
+  <span class="key">"port"</span>: <span class="number">3001</span>
+}</code></pre>
+        </div>
+      </section>
+      <section
+        class="directory"
+        id="directory"
+        aria-labelledby="directory-title"
+      >
+        <div class="directory-heading">
+          <div>
+            <h2 id="directory-title">
+              Built by the room <span id="count" class="count">0</span>
+            </h2>
+            <p id="freshness" role="status">Loading the directory…</p>
+          </div>
+          <button id="refresh" class="text-button">
+            Refresh <span aria-hidden="true">↻</span>
+          </button>
+        </div>
+        <div class="toolbar">
+          <label class="search"
+            ><svg
+              viewBox="0 0 24 24"
+              width="19"
+              height="19"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <circle cx="10.5" cy="10.5" r="6.5" />
+              <path d="m16 16 5 5" /></svg
+            ><input
+              id="search"
+              type="search"
+              aria-label="Search APIs, creators, or descriptions"
+              placeholder="Find an API, an idea, a person…" /></label
+          ><label class="sort"
+            >Sort by
+            <select id="sort">
+              <option value="newest">Newest first</option>
+              <option value="name">API name</option>
+              <option value="creator">Creator</option>
+            </select></label
+          >
+        </div>
+        <div id="demo-notice" class="notice" hidden>
+          Example directory · These are sample projects, not running APIs.
+          <button id="leave-demo" class="text-button">Back to the room</button>
+        </div>
+        <div id="error" class="notice error" role="alert" hidden></div>
+        <div id="api-list" class="api-list" aria-live="polite"></div>
+        <div id="empty" class="empty" hidden>
+          <span class="empty-symbol" aria-hidden="true">{ }</span>
+          <h3>The room is yours.</h3>
+          <p>No APIs shared yet. Be the first to put yours on the board.</p>
+          <div>
+            <button class="primary" data-guide>Share your API</button
+            ><button id="show-demo" class="text-button">
+              Explore an example directory
+            </button>
+          </div>
+        </div>
+        <p id="no-results" class="empty" hidden>
+          No matching APIs. Try another name or idea.
+        </p>
+        <div class="network-note">
+          <span aria-hidden="true">ⓘ</span>
+          <p>
+            Same room, same network. Use Postman to try an API’s address.
+            Registrations aren’t a check that an API is online.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer class="wrap">
+      <span
+        ><strong>acm</strong> at UCSB
+        <span class="footer-separator">/</span> API workshop</span
+      ><span>Small requests. New connections.</span>
+    </footer>
+    <dialog id="guide" aria-labelledby="guide-title">
+      <div class="dialog-top">
+        <span>Join the directory</span
+        ><button class="close" aria-label="Close registration guide">×</button>
+      </div>
+      <h2 id="guide-title">Send it to the room.</h2>
+      <p>
+        Keep your API running on <code>0.0.0.0</code> and join the same network
+        as the workshop host.
+      </p>
+      <ol>
+        <li>
+          <strong>Find your Wi-Fi IPv4 address.</strong>
+          <p>
+            macOS: System Settings → Wi-Fi → Details → TCP/IP. Windows: run
+            <code>ipconfig</code> and find Wi-Fi’s IPv4 address.
+          </p>
+        </li>
+        <li>
+          <strong>In Postman, create a POST request.</strong>
+          <p>Use the address below. Choose Body → raw → JSON.</p>
+          <div class="copy-line">
+            <code id="register-url"></code
+            ><button id="copy-register" class="small-button">Copy URL</button>
+          </div>
+        </li>
+        <li>
+          <strong>Make this JSON your own.</strong>
+          <p>
+            Replace the example IP with your Wi-Fi address. Port is a number,
+            without quotes.
+          </p>
+          <pre id="registration-json"></pre>
+          <button id="copy-json" class="small-button">Copy JSON</button>
+        </li>
+        <li>
+          <strong>Send. Save your response.</strong>
+          <p>
+            A <code>201 Created</code> means you’re on the board. Save your
+            <code>id</code> and <code>edit_token</code> to update or remove your
+            entry later.
+          </p>
+        </li>
+      </ol>
+      <details>
+        <summary>Registration rules &amp; editing</summary>
+        <p>
+          Name: 3–48 characters. Creator: 2–48. Description: 10–160. Single-line
+          plain text. IPv4 only; no localhost. Port: 1024–65535. Each name and
+          IP + port must be unique.
+        </p>
+        <p>
+          Use <code>PATCH /api/apis/YOUR_ID</code> with only the fields you want
+          to change, or <code>DELETE /api/apis/YOUR_ID</code> to remove it. For
+          both, add <code>Authorization: Bearer YOUR_EDIT_TOKEN</code>.
+        </p>
+        <p>
+          Cross-origin requests are allowed. Browser mixed-content or
+          local-network permissions can still block calls to classmates’ HTTP
+          servers; use Postman’s desktop app for the workshop.
+        </p>
+      </details>
+    </dialog>
+    <dialog id="detail" aria-labelledby="detail-title">
+      <div class="dialog-top">
+        <span>From the workshop</span
+        ><button class="close" aria-label="Close API details">×</button>
+      </div>
+      <h2 id="detail-title"></h2>
+      <p id="detail-creator"></p>
+      <p id="detail-description"></p>
+      <div class="detail-address">
+        <span>API base URL</span><code id="detail-url"></code
+        ><button id="copy-detail" class="primary">Copy API address</button>
+      </div>
+      <p>
+        Paste this address into Postman and send a GET request. Ask the creator
+        which other routes you can try.
+      </p>
+      <p id="detail-demo-note" class="notice" hidden>
+        This is an example project. This address is illustrative.
+      </p>
+    </dialog>
+    <div id="toast" role="status"></div>
+    <noscript
+      ><p class="wrap">
+        Enable JavaScript to browse the directory. You can also send GET
+        /api/apis from Postman.
+      </p></noscript
+    >
+  </body>
+</html>
