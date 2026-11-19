@@ -1,25 +1,7 @@
-# API Social design notes
+# Workshop registration list
 
-## Direction
+The platform is a read-only table of real registrations: creator, API name, description, IP, and port. It refreshes every ten seconds. No sample mode, search, sorting controls, dialogs, registration guide, or clipboard controls.
 
-Design-taste app direction: **Editorial greeting**, seed **1098648331**. No redraws. Palette and typography were kept under the brief’s existing-brand constraint. A 1100px content column, tonal blue workshop panel, plain navigation, and flat peer cards give the directory a calm community feel. The platform name and the chapter’s official logo identify the product immediately. Avenir Next/system sans keeps it independent of font downloads.
+The chapter wordmark, remotely referenced official logo, and quiet blue palette retain the ACM at UCSB identity. The text wordmark remains when the logo cannot load. The page has no external font or script dependencies. The table scrolls within its own container on smaller screens.
 
-The screen answers: “What did people in this room build, and how do I call it?”
-
-Its own element is the paired IP and port on every project, leading to a copyable Postman address. The live interaction is the real directory: search, sort, details, refresh, and copy. The sample view is explicitly separate from the real room. No fabricated online status or attendance statistics.
-
-The exact logo URL was identified from the official website’s image link. Network DNS restrictions prevented downloading the asset locally. The HTML references the official remote image and falls back to the text wordmark. No photographs, generated imagery, or substitute logo drawings are used.
-
-## Verification limits
-
-The browser host was unavailable, and the design inspector could not start its local server: `listen EPERM 127.0.0.1`. Therefore no screenshots, browser interaction checks, or visual scores are claimed. The responsive CSS still needs a real-browser pass at 1440, 768, and 390 pixels before the event, including empty, sample, real, error, search, and dialog states. The built-in request tests run without binding ports.
-
-Run locally when browser access is available:
-
-```sh
-npm start
-# In another terminal, from this folder:
-node /path/to/design-taste-frontend/scripts/inspect.mjs http://localhost:3000/?demo=1 --app
-```
-
-Sample projects to confirm or replace: Campus Picks, What’s for lunch?, Daily Affirmations, The Aux Cord, Gaucho Trivia, and Pet Roll Call. These are optional demonstration content, not real registrations or APIs.
+The earlier Editorial greeting direction (seed 1098648331) was simplified in response to the user's request to only show registrations. Browser verification remains unavailable in this environment; no screenshot review or visual scores are claimed.
