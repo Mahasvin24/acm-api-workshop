@@ -1,15 +1,10 @@
 {
   "info": {
     "name": "ACM at UCSB \u00b7 API Social registry",
-    "description": "Run requests individually as you follow along. Update collection variables for your Wi-Fi IP and the host registry URL. Tokens are saved locally; do not share exported live tokens. The delete requests remove your own demo data.",
+    "description": "Read the directory and register your API. Set the host URL and your Wi-Fi IP in collection variables.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
-    {
-      "key": "student_url",
-      "value": "http://localhost:8000",
-      "type": "string"
-    },
     {
       "key": "registry_url",
       "value": "http://localhost:3000",
@@ -33,21 +28,6 @@
     {
       "key": "creator",
       "value": "Your name",
-      "type": "string"
-    },
-    {
-      "key": "spot_id",
-      "value": "2",
-      "type": "string"
-    },
-    {
-      "key": "registration_id",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "edit_token",
-      "value": "",
       "type": "string"
     }
   ],
@@ -83,7 +63,7 @@
           }
         ],
         "url": "{{registry_url}}/api/apis",
-        "description": "Edit collection variables first. Save the response: the private edit token appears only once. This request automatically remembers it locally.",
+        "description": "Set collection variables, then send your registration.",
         "body": {
           "mode": "raw",
           "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Restaurants and what we think of them.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": {{student_port}}\n}",
@@ -100,129 +80,7 @@
           "script": {
             "type": "text/javascript",
             "exec": [
-              "pm.test(\"Registered\", () => pm.response.to.have.status(201));",
-              "if (pm.response.code === 201) {",
-              "  const entry = pm.response.json();",
-              "  pm.collectionVariables.set(\"registration_id\", entry.id);",
-              "  pm.collectionVariables.set(\"edit_token\", entry.edit_token);",
-              "}"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Read your registration",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": "{{registry_url}}/api/apis/{{registration_id}}",
-        "description": ""
-      }
-    },
-    {
-      "name": "Update your tagline",
-      "request": {
-        "method": "PATCH",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": "{{registry_url}}/api/apis/{{registration_id}}",
-        "description": "",
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"description\": \"Restaurant notes, now with a personal touch.\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{edit_token}}",
-              "type": "string"
-            }
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Updated\", () => pm.response.to.have.status(200));"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Try an invalid port",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "url": "{{registry_url}}/api/apis",
-        "description": "",
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Restaurants and what we think of them.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": \"8000\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Port must be a number\", () => pm.response.to.have.status(400));"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Remove your registration",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "url": "{{registry_url}}/api/apis/{{registration_id}}",
-        "description": "",
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "{{edit_token}}",
-              "type": "string"
-            }
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test(\"Removed\", () => pm.response.to.have.status(204));"
+              "pm.test(\"Registered\", () => pm.response.to.have.status(201));"
             ]
           }
         }
