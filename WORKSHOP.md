@@ -4,7 +4,7 @@ The outcome: each student understands a request/response, changes a tiny API, sh
 
 ## Before the event
 
-The host needs Node.js **22.13+** for the platform. Students need Python **3.10+**, the Postman **desktop app**, and `api-starter`. Have students follow its README to create a virtual environment and install `requirements.txt` before arriving. The host runs `npm ci` in `platform`. Browser-only Postman may need a desktop agent for local networking.
+The host and students need Python **3.10+**. Students also need the Postman **desktop app**, and `api-starter`. Have students follow its README to create a virtual environment and install `requirements.txt` before arriving. The host installs the platform’s `requirements.txt` in a virtual environment. Browser-only Postman may need a desktop agent for local networking.
 
 Rehearse with **two actual laptops on the venue network**. One laptop reaching itself does not prove the room can connect. A shared SSID does not guarantee device-to-device traffic. Use an approved workshop network or hotspot that permits peers if campus Wi-Fi blocks them. Test the hotspot too; some isolate clients. You do not need router port forwarding or public Internet exposure.
 
@@ -12,7 +12,10 @@ On the host:
 
 ```sh
 cd platform
-npm start
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 3000
 ```
 
 On a different laptop, open `http://HOST_WIFI_IP:3000` and GET `http://HOST_WIFI_IP:3000/api/health`. Start the student API and ask the host to GET `http://STUDENT_WIFI_IP:8000/restaurants`. Resolve OS firewall prompts for the intended workshop network. Keep these URLs on a slide or whiteboard; do not give students the host’s `localhost` URL.

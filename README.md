@@ -4,14 +4,16 @@ The shared API directory for ACM at UCSB’s beginner API workshop. Students run
 
 ## Run the platform
 
-Requires **Node.js 22.13+** (built-in SQLite). Run from this folder:
+Requires **Python 3.10+**. Run from this folder:
 
 ```sh
-npm ci
-npm start
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python -m uvicorn main:app --reload --host 0.0.0.0 --port 3000
 ```
 
-Open **http://localhost:3000**. The platform serves both the website and registry API. It listens on `0.0.0.0`; share **http://YOUR_WIFI_IP:3000** with the room. `PORT` changes the platform port. `npm run dev` watches server changes. `npm test` exercises the real Express request pipeline without opening network sockets.
+Open **http://localhost:3000**. FastAPI serves both the website and registry API. Routes are in `main.py`, validation models in `models.py`, and dependencies in `requirements.txt`. It listens on `0.0.0.0`; share **http://YOUR_WIFI_IP:3000** with the room. Change `--port` to use another port; `--reload` watches server changes. On Windows PowerShell, activate with `.venv\Scripts\Activate.ps1`.
 
 Entries persist in `data/registry.sqlite` and survive server restarts. The website is a read-only table of registered creators, API names, descriptions, IPs, and ports. It starts empty and refreshes every ten seconds. Students register through Postman.
 
@@ -29,7 +31,7 @@ The website uses the same public API as students. Import **[registry.postman_col
 | POST | `/api/apis` | Create a registration; `201` |
 | PATCH | `/api/apis/:id` | Update supplied fields; owner token required |
 | DELETE | `/api/apis/:id` | Remove a registration; owner token required; `204` |
-| OPTIONS | Any route | Cross-origin preflight; `204` |
+| OPTIONS | Any route | Cross-origin preflight; `200` (`204` without preflight headers) |
 
 POST body:
 
@@ -67,7 +69,7 @@ Invalid fields return `400` and per-field help, for example:
 ```json
 {
   "error": "Check your registration.",
-  "fields": {"port": "Use a JSON number between 1024 and 65535, like 8000."}
+  "fields": {"port": "Input should be a valid integer"}
 }
 ```
 
