@@ -1,6 +1,8 @@
-node_modules/
 data/
 .DS_Store
 .env
 output/
 .taste-skill/inspect/
+.venv/
+__pycache__/
+*.pyc
