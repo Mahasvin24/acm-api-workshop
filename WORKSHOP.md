@@ -15,7 +15,7 @@ cd platform
 npm start
 ```
 
-On a different laptop, open `http://HOST_WIFI_IP:3000` and GET `http://HOST_WIFI_IP:3000/api/health`. Start the student API and ask the host to GET `http://STUDENT_WIFI_IP:8000/spots`. Resolve OS firewall prompts for the intended workshop network. Keep these URLs on a slide or whiteboard; do not give students the host’s `localhost` URL.
+On a different laptop, open `http://HOST_WIFI_IP:3000` and GET `http://HOST_WIFI_IP:3000/api/health`. Start the student API and ask the host to GET `http://STUDENT_WIFI_IP:8000/restaurants`. Resolve OS firewall prompts for the intended workshop network. Keep these URLs on a slide or whiteboard; do not give students the host’s `localhost` URL.
 
 If device-to-device networking remains blocked, students can finish CRUD locally using Postman or FastAPI’s `/docs`. Registration alone cannot make unreachable laptops accessible. Rehearse early enough to secure a usable network for the sharing exercise.
 
@@ -23,10 +23,10 @@ If device-to-device networking remains blocked, students can finish CRUD locally
 
 | Time | Teach and do |
 | --- | --- |
-| 0–8 min | Run the starter. GET `/spots` in a browser. Point out URL, method, JSON response, and `200`. |
-| 8–18 min | POST a favorite place in Postman. Explain headers, JSON strings versus numbers, and `201`. Send an invalid body and read FastAPI’s `422` validation response together. GET again to see the change. |
-| 18–25 min | PATCH the returned ID’s tip, then DELETE it. Explain route parameters, `404`, and `204`. Briefly compare PATCH with PUT. |
-| 25–40 min | Make it yours. Students change the dataset or add one endpoint. Show a random recommendation endpoint as a short live example if they need a starting point. |
+| 0–8 min | Run the starter. GET `/restaurants` in a browser. Point out URL, method, JSON response, and `200`. |
+| 8–18 min | POST a restaurant with a name and personal note in Postman. Explain headers, JSON strings versus numbers, and `201`. Send an invalid body and read FastAPI’s `422` validation response together. GET again to see the change. |
+| 18–25 min | Add a second restaurant, then GET the list. Explain how the request model checks the name and note. Briefly introduce PATCH and DELETE as possible extensions. |
+| 25–40 min | Make it yours. Students change the dataset or add one endpoint. Show a random restaurant endpoint as a short live example if they need a starting point. |
 | 40–50 min | Find Wi-Fi IPs. A neighbor GETs each student’s API. POST the registration to the shared platform and save the returned ID/token. |
 | 50–60 min | Browse the board. Try two classmates’ APIs in Postman. Volunteers describe their method, route, and response. Optional: PATCH your directory tagline. |
 
@@ -35,7 +35,7 @@ Keep the teaching screen on `api-starter/main.py`. The platform’s validation a
 ## Explain this networking picture
 
 ```text
-Student laptop :8000  ← GET /spots ───  Neighbor’s Postman
+Student laptop :8000  ← GET /restaurants ───  Neighbor’s Postman
         │
         └── POST /api/apis ──→ Host laptop :3000
                                       │

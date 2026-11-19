@@ -35,9 +35,9 @@ POST body:
 
 ```json
 {
-  "name": "Campus Picks",
+  "name": "Restaurant Notes",
   "creator": "Your name",
-  "description": "Good spots around UCSB.",
+  "description": "Restaurants and what we think of them.",
   "ip": "192.168.1.42",
   "port": 8000
 }
@@ -45,7 +45,7 @@ POST body:
 
 Successful POST returns those fields plus `id`, `created_at`, `edit_token`, and a message. `Location` points to the new resource. **Save `edit_token` immediately**; only its SHA-256 hash is stored. Public reads never return tokens or hashes.
 
-To update, send `PATCH /api/apis/YOUR_ID` with a body such as `{"description":"Now with a random spot endpoint."}`. To remove, send `DELETE /api/apis/YOUR_ID`. Both require:
+To update, send `PATCH /api/apis/YOUR_ID` with a body such as `{"description":"Now with a random restaurant endpoint."}`. To remove, send `DELETE /api/apis/YOUR_ID`. Both require:
 
 ```http
 Authorization: Bearer YOUR_EDIT_TOKEN

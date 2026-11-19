@@ -27,7 +27,7 @@
     },
     {
       "key": "api_name",
-      "value": "Campus Picks",
+      "value": "Restaurant Notes",
       "type": "string"
     },
     {
@@ -86,7 +86,7 @@
         "description": "Edit collection variables first. Save the response: the private edit token appears only once. This request automatically remembers it locally.",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Good spots around UCSB.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": {{student_port}}\n}",
+          "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Restaurants and what we think of them.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": {{student_port}}\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -134,7 +134,7 @@
         "description": "",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"description\": \"Campus recommendations, now with a personal touch.\"\n}",
+          "raw": "{\n  \"description\": \"Restaurant notes, now with a personal touch.\"\n}",
           "options": {
             "raw": {
               "language": "json"
@@ -178,7 +178,7 @@
         "description": "",
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Good spots around UCSB.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": \"8000\"\n}",
+          "raw": "{\n  \"name\": \"{{api_name}}\",\n  \"creator\": \"{{creator}}\",\n  \"description\": \"Restaurants and what we think of them.\",\n  \"ip\": \"{{student_ip}}\",\n  \"port\": \"8000\"\n}",
           "options": {
             "raw": {
               "language": "json"
