@@ -1,17 +1,18 @@
-import { test, before, after } from 'node:test';
+import { test, after } from 'node:test';
 import assert from 'node:assert/strict';
-import { once } from 'node:events';
+import { client } from '../testing/request.js';
 import { createApp } from '../server.js';
 
 const { app, db } = createApp({ database: ':memory:', rateLimit: 1000 });
-let server, base, entry;
+const base = 'http://test';
+const fetch = client(app);
+let entry;
 const valid = { name: 'Campus Picks', creator: 'Workshop Student', description: 'Good places to spend an afternoon.', ip: '192.168.1.42', port: 3001 };
 const request = (path = '', method = 'GET', body, token) => fetch(`${base}/api/apis${path}`, {
   method, headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
   body: body === undefined ? undefined : JSON.stringify(body),
 });
-before(async () => { server = app.listen(0, '127.0.0.1'); await once(server, 'listening'); base = `http://127.0.0.1:${server.address().port}`; });
-after(async () => { await new Promise(resolve => server.close(resolve)); db.close(); });
+after(() => db.close());
 
 test('starts empty and creates a trimmed registration with a private edit token', async () => {
   assert.deepEqual(await (await request()).json(), { apis: [] });
@@ -63,8 +64,8 @@ test('only the creator can update or delete; invalid updates leave the record in
 });
 test('rate limits writes while allowing reads', async () => {
   const limited = createApp({ database: ':memory:', rateLimit: 1 });
-  const listener = limited.app.listen(0, '127.0.0.1'); await once(listener, 'listening');
-  const url = `http://127.0.0.1:${listener.address().port}/api/apis`;
+  const fetch = client(limited.app);
+  const url = 'http://test/api/apis';
   try {
     const options = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' };
     assert.equal((await fetch(url, options)).status, 400);
@@ -72,5 +73,15 @@ test('rate limits writes while allowing reads', async () => {
     assert.equal(response.status, 429);
     assert.ok(Number(response.headers.get('Retry-After')) > 0);
     assert.equal((await fetch(url)).status, 200);
-  } finally { await new Promise(resolve => listener.close(resolve)); limited.db.close(); }
+  } finally { limited.db.close(); }
+});
+
+test('cross-origin JSON and bearer-token preflights succeed', async () => {
+  const response = await fetch(`${base}/api/apis`, { method: 'OPTIONS', headers: { Origin: 'http://localhost:5173', 'Access-Control-Request-Method': 'PATCH', 'Access-Control-Request-Headers': 'content-type,authorization' } });
+  assert.equal(response.status, 204);
+  assert.equal(response.headers.get('access-control-allow-origin'), '*');
+  assert.match(response.headers.get('access-control-allow-methods'), /PATCH/);
+  assert.match(response.headers.get('access-control-allow-headers'), /Authorization/);
+  const error = await request('', 'POST', {});
+  assert.equal(error.headers.get('access-control-allow-origin'), '*');
 });

@@ -22,6 +22,15 @@ export function createApp({ database = join(here, 'data', 'registry.sqlite'), ra
   const app = express();
   app.disable('x-powered-by');
   app.use((req, res, next) => {
+    res.set({ 'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, HEAD, POST, PATCH, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+      'Access-Control-Expose-Headers': 'Location, Retry-After',
+      'Access-Control-Max-Age': '600' });
+    if (req.method === 'OPTIONS') return res.sendStatus(204);
+    next();
+  });
+  app.use((req, res, next) => {
     res.set({ 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer',
       'Content-Security-Policy': "default-src 'self'; img-src 'self' https://www.ucsbacm.com; style-src 'self'; script-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'" });
     next();
